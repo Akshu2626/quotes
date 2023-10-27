@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <title>Quotes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: gilroy;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+        h1{
+            color: white;
+            width: 100%;
+            text-align: center;
+            font-size: 3vw;
+            text-transform: uppercase;
+            position: absolute;
+            top: 2%;
+        }
+        #main{
+            width: 100%;
+            height: 100%;
+            background-color: royalblue;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #box{
+            width: 75%;
+            height: 75%;
+            background-color: white;
+            position: relative;
+            border-radius: 30px 0px 30px 0px;
+            
+        }
+        #quotes{
+            width: 80%;
+            height: 30%;
+            text-align: center;
+            /* background-color: white; */
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            
+        }
+        #quotes>h2{
+            font-size: 3.5vw;
+            color: black;
+            position: absolute;
+        }
+        
+
+        #author>h4{
+            position: absolute;
+            top: 58%;
+            right: 10%;
+            font-size: 1vw;
+            
+        }
+        #newQ{
+            padding: 10px 70px;
+            position: absolute;
+            top: 70%;
+            left: 30%;
+            font-size: 2vw;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 19px;
+            font-weight: 800;
+            background-color: royalblue;
+            color: white;
+            cursor: pointer;
+        }
+        #quotes>#vichar::selection{
+            color: white;
+            background-color: black;
+        }
+
+        i{
+            padding: 15px;
+            font-size: 7vw;
+            color: gray;
+        }
+        img{
+            height: 50px;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    
+    
+        
+        
+        <div id="main">
+        <h1>your Quotes are here</h1>
+        <div id="box">
+            <i class="ri-double-quotes-l"></i>
+            <div id="quotes"><h2 id="vichar"></h2></div>
+        <div id="author"><h4></h4></div>
+        <button id="newQ" >new Quotes</button>
+
+        <!-- <button id="insta" >insta</button> -->
+
+        <img src="/insta.png" id="insta" alt="">
+
+        </div>
+
+    </div>
+
+
+
+
+    <script>
+        
+        let quote=document.querySelector('#quotes h2')
+        let author=document.querySelector('#author>h4')
+        let newq = document.getElementById('newQ');
+        let insta = document.getElementById('insta');
+
+        let realdata = "";
+        let quotedata = "";
+
+        const instaNow = () => {
+            let instapost = "https://www.instagram.com/";
+            window.open(instapost);
+        }
+
+        const getnewQuotes = () => {
+            let rnum = Math.floor(Math.random() * 16);
+            quotedata = realdata[rnum];
+            // console.log(realdata[rnum].author);
+            quote.innerHTML = quotedata.text;
+            author.innerHTML = quotedata.author;
+            quotedata.author == null ? author.innerHTML = "unknown" : author.innerHTML = `${quotedata.author}`;
+        }
+
+        const getQuotes = async () => {
+            const api = 'https://type.fit/api/quotes';
+            try {
+                let data = await fetch(api);
+                realdata = await data.json();
+                getnewQuotes();
+                // console.log(realdata.length);
+                // console.log(realdata[10].author);
+            } catch (error) { }
+        }
+
+        insta.addEventListener('click', instaNow)
+        newq.addEventListener('click', getnewQuotes)
+        getQuotes();
+
+    </script>
+</body>
+
+</html>
